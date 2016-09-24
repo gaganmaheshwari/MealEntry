@@ -1,8 +1,8 @@
 {
-  "name": "mealtally",
+  "name": "mealentry",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,9 +13,9 @@
   "author": "togetherly",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gaganmaheshwari/MealTally/issues"
+    "url": "https://github.com/gaganmaheshwari/MealEntry/issues"
   },
-  "homepage": "https://github.com/gaganmaheshwari/MealTally#readme",
+  "homepage": "https://github.com/gaganmaheshwari/MealEntry#readme",
   "dependencies": {
     "angularjs": "0.0.1",
     "body-parser": "^1.15.2",
