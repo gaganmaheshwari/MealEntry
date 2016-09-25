@@ -2,6 +2,9 @@
 var express = require("express");
 var bodyParser = require('body-parser').json();
 var app = express();
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var ObjectId = require('mongodb').ObjectID;
 
 var mongoose = require('mongoose');
 
@@ -42,10 +45,26 @@ app.get("/meal", function(req, res) {
 
 app.post('/meal', bodyParser, function(req, res) {
   console.log('request body', req.body);
-  new meal(req.body).save(function(err, result){
-            if(err) res.status(500).json(err);
-            else res.status(200).json(result);
+
+  var insertDocument = function(db, callback) {
+   db.collection('meal').insertOne(req.body, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted a document into the meal collection.");
+    callback();
+    });
+  };
+
+  mongoose.connect('mongodb://togetherly:togetherly2016@ds046549.mlab.com:46549/mealtally', function(err, db) {
+    assert.equal(null, err);
+    insertDocument(db, function() {
+      db.close();
   });
+});
+
+  // new meal(req.body).insert(function(err, result){
+  //           if(err) res.status(500).json(err);
+  //           else res.status(200).json(result);
+  // });
 });
 
 app.use(express.static(__dirname + "/public"));
