@@ -39,10 +39,10 @@ app.get("/meal", function(req, res) {
 });
 
 app.post('/meal', bodyParser, function(req, res) {
-  console.log('request body', req.body);
-
   var insertDocument = function(db, callback) {
    db.collection('meal').insertOne(req.body, function(err, result) {
+    if(err) res.status(500).json(err);
+    else res.status(200).json(result);
     assert.equal(err, null);
     console.log("Inserted a document into the meal collection.");
     callback();
@@ -53,13 +53,8 @@ app.post('/meal', bodyParser, function(req, res) {
     assert.equal(null, err);
     insertDocument(db, function() {
       db.close();
+    });
   });
-});
-
-  // new meal(req.body).insert(function(err, result){
-  //           if(err) res.status(500).json(err);
-  //           else res.status(200).json(result);
-  // });
 });
 
 app.use(express.static(__dirname + "/public"));
