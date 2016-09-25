@@ -49,7 +49,7 @@ app.post('/meal', bodyParser, function(req, res) {
     });
   };
 
-  mongoose.connect('mongodb://togetherly:togetherly2016@ds046549.mlab.com:46549/mealtally', function(err, db) {
+  MongoClient.connect('mongodb://togetherly:togetherly2016@ds046549.mlab.com:46549/mealtally', function(err, db) {
     assert.equal(null, err);
     insertDocument(db, function() {
       db.close();
