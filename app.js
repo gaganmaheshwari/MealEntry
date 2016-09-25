@@ -1,12 +1,9 @@
 //declaring express on the server.js file
 var express = require("express");
-var bodyParser = require('body-parser');
-
+var bodyParser = require('body-parser').json();
 var app = express();
 
 var mongoose = require('mongoose');
-
-var jsonParser = bodyParser.json();
 
 mongoose.connect( 'mongodb://togetherly:togetherly2016@ds046549.mlab.com:46549/mealtally', function (err) { //TODO: config
  if (err) console.log('Error: Failed to connect to mongoose!', err);
@@ -43,7 +40,8 @@ app.get("/meal", function(req, res) {
   });
 });
 
-app.post('/meal', function(req, res) {
+app.post('/meal', bodyParser, function(req, res) {
+  console.log('request body', req.body);
   new meal(req.body).save(function(err, result){
             if(err) res.status(500).json(err);
             else res.status(200).json(result);
