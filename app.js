@@ -5,7 +5,7 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var config = require('./config/mongo');
+if(!process.env.MLABURI) var config = require('./config/mongo');
 
 var mongoose = require('mongoose');
 
