@@ -8,11 +8,6 @@ var ObjectId = require('mongodb').ObjectID;
 
 var mongoose = require('mongoose');
 
-mongoose.connect( 'mongodb://togetherly:togetherly2016@ds046549.mlab.com:46549/mealtally', function (err) { //TODO: config
- if (err) console.log('Error: Failed to connect to mongoose!', err);
- else console.log('Connected to mongodb!');
-});
-
 var mealSchema = mongoose.Schema({
   "date": Date,
   "siteName": String,
