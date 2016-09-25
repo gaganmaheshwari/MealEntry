@@ -5,9 +5,12 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
+var config = require('./config/mongo');
 
 var mongoose = require('mongoose');
 
+var mongoUrl = config.mongoURI;
+console.log(mongoUrl);
 var mealSchema = mongoose.Schema({
   "date": Date,
   "siteName": String,
@@ -31,11 +34,25 @@ var meal = mongoose.model('meal', mealSchema);﻿
 app.listen(process.env.PORT || 3000);
 console.log("Server running on port 3000");
 
+var findMeal = function(db, callback) {
+   var cursor =db.collection('meal').find( );
+   cursor.each(function(err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+         console.dir(doc);
+      } else {
+         callback();
+      }
+   });
+};
+
 app.get("/meal", function(req, res) {
-  meal.find({}, function(err, result) {
-    if(err) res.status(500).json(err);
-    else res.status(200).json(result);
+  MongoClient.connect(mongoUrl, function(err, db) {
+  assert.equal(null, err);
+  findMeal(db, function() {
+      db.close();
   });
+});
 });
 
 app.post('/meal', bodyParser, function(req, res) {
@@ -49,7 +66,7 @@ app.post('/meal', bodyParser, function(req, res) {
     });
   };
 
-  MongoClient.connect('mongodb://togetherly:togetherly2016@ds046549.mlab.com:46549/mealtally', function(err, db) {
+  MongoClient.connect(mongoUrl, function(err, db) {
     assert.equal(null, err);
     insertDocument(db, function() {
       db.close();
