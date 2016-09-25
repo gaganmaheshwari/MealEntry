@@ -9,7 +9,7 @@ var config = require('./config/mongo');
 
 var mongoose = require('mongoose');
 
-var mongoUrl = config.mongoURI;
+var mongoUrl = process.env.MLABURI || config.mongoURI;
 console.log(mongoUrl);
 var mealSchema = mongoose.Schema({
   "date": Date,
